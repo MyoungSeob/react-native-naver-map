@@ -156,8 +156,21 @@ public class RNNaverMapMarker extends ClickableRNNaverMapFeature<Marker> impleme
         feature.setCaptionAligns(aligns);
     }
 
+    // 서브캡션 생성
+    public void setSubCaption(String text, int textSize, int color, int haloColor) {
+        feature.setSubCaptionText(text);
+        feature.setSubCaptionTextSize(textSize);
+        feature.setSubCaptionColor(color);
+        feature.setSubCaptionHaloColor(haloColor);
+    }
+
     public void removeCaption() {
         feature.setCaptionText("");
+    }
+
+    // 서브캡션 지우기
+    public void removeSubCaption() {
+        feature.setSubCaptionText("");
     }
 
     public void setImage(String uri) {

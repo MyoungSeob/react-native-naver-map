@@ -273,15 +273,21 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
     public View getFeatureAt(int index) {
         return features.get(index);
     }
-
-    @Override
+    
+    // 픽셀당 미터 구하기
+   @Override
     public void onCameraIdle() {
+        Projection projection = naverMap.getProjection();
+        // 1px 당 미터 구하기
         CameraPosition cameraPosition = naverMap.getCameraPosition();
+        double metersPerPixel = projection.getMetersPerPixel(cameraPosition.target.latitude, cameraPosition.zoom);
 
         WritableMap param = Arguments.createMap();
         param.putDouble("latitude", cameraPosition.target.latitude);
         param.putDouble("longitude", cameraPosition.target.longitude);
         param.putDouble("zoom", cameraPosition.zoom);
+        // 1px 당 미터 구하기
+        param.putDouble("metersPerPixel", metersPerPixel);
         param.putArray("contentRegion", ReactUtil.toWritableArray(naverMap.getContentRegion()));
         param.putArray("coveringRegion", ReactUtil.toWritableArray(naverMap.getCoveringRegion()));
 

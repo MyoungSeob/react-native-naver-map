@@ -98,11 +98,14 @@
 }
 
 - (void)mapViewIdle:(nonnull NMFMapView *)mapView {
+    NMFProjection *projection = mapView.projection;
+    CLLocationDistance metersPerPixel = [projection metersPerPixelAtLatitude:round(mapView.cameraPosition.target.lat) zoom: mapView.cameraPosition.zoom];
   if (((RNNaverMapView*)self).onCameraChange != nil)
     ((RNNaverMapView*)self).onCameraChange(@{
       @"latitude"      : @(mapView.cameraPosition.target.lat),
       @"longitude"     : @(mapView.cameraPosition.target.lng),
       @"zoom"          : @(mapView.cameraPosition.zoom),
+      @"metersPerPixel": @(metersPerPixel),
       @"contentRegion" : pointsToJson(mapView.contentRegion.exteriorRing.points),
       @"coveringRegion": pointsToJson(mapView.coveringRegion.exteriorRing.points),
     });

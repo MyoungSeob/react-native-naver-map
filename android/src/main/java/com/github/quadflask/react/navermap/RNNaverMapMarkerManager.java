@@ -141,6 +141,24 @@ public class RNNaverMapMarkerManager extends EventEmittableViewGroupManager<RNNa
         view.setCaption(text, textSize, color, haloColor, align);
     }
 
+
+    // Javascript에서 넘어오는 subCaption 설정 값 연동
+    @ReactProp(name = "subCaption")
+    public void setSubCaption(RNNaverMapMarker view, ReadableMap map) {
+        if (map == null || !map.hasKey("text")) {
+            view.removeSubCaption();
+            return;
+        }
+
+        // 네이버 맵 안드로이드 SDK(https://navermaps.github.io/android-map-sdk/guide-ko/5-2.html) 기준 서브캡션 설정 값을 기준으로 작성
+        String text = map.getString("text");
+        int textSize = map.hasKey("textSize") ? map.getInt("textSize") : 16;
+        int color = map.hasKey("color") ? parseColorString(map.getString("color")) : Color.BLACK;
+        int haloColor = map.hasKey("haloColor") ? parseColorString(map.getString("haloColor")) : Color.WHITE;
+
+        view.setSubCaption(text, textSize, color, haloColor);
+    }
+
     @Override
     public void addView(RNNaverMapMarker parent, View child, int index) {
         parent.setCustomView(child, index);
